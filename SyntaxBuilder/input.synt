@@ -1,0 +1,13 @@
+#lex input.lex
+ 
+lhs = t_ident ;
+rhs = t_ident
+     | t_str
+     | o_lb , rhs , o_rb # '(', rhs, ')'
+     | o_lc , rhs , o_rc # '{', rhs, '}'
+     | o_ls , rhs , o_rs # '[', rhs, ']'
+     | rhs , "|" , rhs
+     | rhs , "," , rhs ;
+
+rule = lhs , "=" , rhs , ";" ;
+grammar = { rule } ;

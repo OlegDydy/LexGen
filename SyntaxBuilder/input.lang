@@ -1,0 +1,32 @@
+# File describing lexics of Extended Backus–Naur form
+# decription of regular expressions on page: https://en.wikipedia.org/wiki/Regular_expression
+# this elenets already included
+# \s 	(\x20 | \t | \v | \r | \n | \f)		Spaces
+# \w 	([a-z] | [A-Z] | _)					Word Symbols
+# \d	(0 | 1 | ... | 9)					Digits
+# . (\' | \" | \t | \0)						Any char except new line
+
+# type name description (regular expression)
+# all unspecified tokens are in macro class operands (var) 
+# Expr = var
+# expr = var op var
+
+token t_ident ([_a-zA-Z]\w*)
+token t_str (".*?")
+
+# absorbers
+mute c_line (#.*)
+
+# operators
+oper o_assign 		(\=)                      
+oper o_lb 			(\()
+oper o_rb 			(\))
+oper o_lsb 			(\[)
+oper o_rsb 			(\])
+oper o_or 			(\|)
+oper o_prefix		(\>)
+oper o_sufix		(\<)
+
+# keywords
+
+#syntax
