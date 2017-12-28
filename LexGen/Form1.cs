@@ -66,10 +66,10 @@ namespace LexGen
 
         private void pushHistory()
         {
-            Changed = false;
-            History.Capacity = HistoryId;
-            History.Add(Editor.Text);
-            HistoryId++;
+            // Changed = false;
+            // History.Capacity = HistoryId;
+            // History.Add(Editor.Text);
+            // HistoryId++;
         }
 
         private void Undo()
@@ -145,6 +145,41 @@ namespace LexGen
         private void mmRedo_Click(object sender, EventArgs e)
         {
             Redo();
+        }
+
+        About AboutBox = new About();
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox.Show();
+        }
+
+        private void mmCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(Editor.SelectedText);
+        }
+
+        private void mmCut_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(Editor.SelectedText);
+            int id = Editor.SelectionStart;
+            string tmp =
+                Editor.Text.Substring(0, id)+
+                Editor.Text.Substring(id + Editor.SelectionLength);
+            Editor.Text = tmp;
+            Editor.SelectionStart = id;
+        }
+
+        private void mmPaste_Click(object sender, EventArgs e)
+        {
+            ;
+            int id = Editor.SelectionStart;
+            string tmp =
+                Editor.Text.Substring(0, id) +
+                Clipboard.GetText() +
+                Editor.Text.Substring(id + Editor.SelectionLength);
+            Editor.Text = tmp;
+            Editor.SelectionStart = id;
         }
     }
 }

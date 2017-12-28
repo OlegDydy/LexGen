@@ -32,9 +32,9 @@ namespace LexGen
         {
 
             if (a.type < b.type)
-                return -1;
-            if (a.type > b.type)
                 return 1;
+            if (a.type > b.type)
+                return -1;
             return a.name.CompareTo(b.name);
         }
         
@@ -180,7 +180,7 @@ namespace LexGen
 
             token_descs.Sort(ItemCmp);
 
-            Int32 id = 1;
+            Int32 id = 0;
             foreach (token_description item in token_descs)
             {
                 try
@@ -323,24 +323,24 @@ namespace LexGen
             "\n" +
             "// Save current state\n" +
             "void push_state(states_t *states, unsigned state, unsigned substate) {\n" +
-            "\tif (states.length == states.capacity) {\n" +
-            "\t\tstates.capacity += 32;\n" +
-            "\t\tstates.state = (unsigned*)realloc(\n" +
-            "\t\t\tstates.state, sizeof(states.state[0]) * states.capacity);\n" +
-            "\t\tstates.substate = (unsigned*)realloc(\n" +
-            "\t\t\tstates.substate, sizeof(states.substate[0]) * states.capacity);\n" +
+            "\tif (states->length == states->capacity) {\n" +
+            "\t\tstates->capacity += 32;\n" +
+            "\t\tstates->state = (unsigned*)realloc(\n" +
+            "\t\t\tstates->state, sizeof(states->state[0]) * states->capacity);\n" +
+            "\t\tstates->substate = (unsigned*)realloc(\n" +
+            "\t\t\tstates->substate, sizeof(states->substate[0]) * states->capacity);\n" +
             "\t}\n" +
-            "\tstates.state[states.length] = state;\n" +
-            "\tstates.substate[states.length] = substate;\n" +
-            "\tstates.length++;\n" +
+            "\tstates->state[states->length] = state;\n" +
+            "\tstates->substate[states->length] = substate;\n" +
+            "\tstates->length++;\n" +
             "}\n" +
             "\n" +
             "// Load state\n" +
             "void pop_state(states_t *states, unsigned *state, unsigned *substate) {\n" +
-            "\tif (states.length > 0) {\n" +
-            "\t\tstates.length--;\n" +
-            "\t\t*state = states.state[states.length];\n" +
-            "\t\t*substate = states.substate[states.length] + 1;\n" +
+            "\tif (states->length > 0) {\n" +
+            "\t\tstates->length--;\n" +
+            "\t\t*state = states->state[states->length];\n" +
+            "\t\t*substate = states->substate[states->length] + 1;\n" +
             "\t}\n" +
             "\telse {\n" +
             "\t\t*state = 0;\n" +
@@ -357,7 +357,7 @@ namespace LexGen
             "\tswitch(token) {";
             foreach (token_description t in token_descs)
 
-                output += $"\tcase {t.name}: return \"{t.name}\";\n";
+            output += $"\tcase {t.name}: return \"{t.name}\";\n";
             output += "\t}\n" +
               "\treturn NULL;\n" +
               "}\n\n";
